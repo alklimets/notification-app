@@ -7,8 +7,8 @@ import lombok.Getter;
 import javax.validation.constraints.NotNull;
 
 @Getter
-@EqualsAndHashCode
-public class NotificationContent implements DomainAttribute<String> {
+@EqualsAndHashCode(callSuper = true)
+public class NotificationContent extends DomainAttribute<String> {
 
     @NotNull
     private String value;
