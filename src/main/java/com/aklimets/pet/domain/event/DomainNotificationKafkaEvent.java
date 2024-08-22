@@ -1,8 +1,8 @@
 package com.aklimets.pet.domain.event;
 
-import com.aklimets.pet.buildingblock.interfaces.DomainEvent;
 import com.aklimets.pet.domain.model.attribute.NotificationContent;
 import com.aklimets.pet.domain.model.attribute.NotificationSubject;
+import com.aklimets.pet.event.DomainEvent;
 import com.aklimets.pet.model.attribute.EmailAddress;
 import com.aklimets.pet.model.attribute.RequestId;
 
