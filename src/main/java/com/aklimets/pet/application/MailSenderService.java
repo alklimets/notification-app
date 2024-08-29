@@ -40,7 +40,7 @@ public class MailSenderService {
     @Async
     public void processDomainEvent(DomainNotificationKafkaEvent event, String eventType) {
         try {
-            MimeMessage message = mailSender.createMimeMessage();
+            var message = mailSender.createMimeMessage();
             prepareMessage(event, message, eventType);
             mailSender.send(message);
             log.info("Email has been sent to the recipient successfully");
@@ -50,20 +50,20 @@ public class MailSenderService {
     }
 
     private void prepareMessage(DomainNotificationKafkaEvent event, MimeMessage message, String eventType) throws MessagingException, UnsupportedEncodingException {
-        MimeMessageHelper helper = new MimeMessageHelper(message);
+        var helper = new MimeMessageHelper(message);
         helper.setFrom(emailFrom, nameFrom);
         helper.setTo(event.address().getValue());
         helper.setSubject(event.subject().getValue());
 
         // Thymeleaf Context
-        Context context = new Context();
+        var context = new Context();
 
         // Properties to show up in Template after stored in Context
         Map<String, Object> properties = new HashMap<>(event.contentMap().getValue());
         properties.put("year", timeSource.getCurrentLocalDate().getYear());
         context.setVariables(properties);
 
-        String html = templateEngine.process(String.format("emails/%s.html", eventType), context);
+        var html = templateEngine.process(String.format("emails/%s.html", eventType), context);
         helper.setText(html, true);
         log.info(html);
     }

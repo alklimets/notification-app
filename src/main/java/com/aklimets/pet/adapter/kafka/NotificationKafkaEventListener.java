@@ -19,7 +19,7 @@ public class NotificationKafkaEventListener {
 
     @KafkaListener(topics = "${notification.topic.name}", groupId = "${notification.group.name}")
     public void consume(ConsumerRecord<String, DomainNotificationKafkaEvent> record) {
-        String eventType = new String(record.headers().lastHeader(EVENT_TYPE_HEADER_KEY).value());
+        var eventType = new String(record.headers().lastHeader(EVENT_TYPE_HEADER_KEY).value());
         log.info("Received notification event: {}", record.value());
         log.info("Event type {}", eventType);
         mailSenderService.processDomainEvent(record.value(), eventType);

@@ -13,13 +13,13 @@ public class ThymeleafTemplateConfig {
 
     @Bean
     public SpringTemplateEngine springTemplateEngine() {
-        SpringTemplateEngine springTemplateEngine = new SpringTemplateEngine();
+        var springTemplateEngine = new SpringTemplateEngine();
         springTemplateEngine.addTemplateResolver(emailTemplateResolver());
         return springTemplateEngine;
     }
 
     public ClassLoaderTemplateResolver emailTemplateResolver() {
-        ClassLoaderTemplateResolver emailTemplateResolver = new ClassLoaderTemplateResolver();
+        var emailTemplateResolver = new ClassLoaderTemplateResolver();
         emailTemplateResolver.setPrefix("/templates/");
         emailTemplateResolver.setSuffix(".html");
         emailTemplateResolver.setTemplateMode(TemplateMode.HTML);
