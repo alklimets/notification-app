@@ -5,12 +5,13 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import javax.validation.constraints.NotNull;
+import java.util.Map;
 
 @Getter
 @EqualsAndHashCode(callSuper = true)
-public class NotificationContent extends DomainAttribute<String> {
+public class NotificationContentMap extends DomainAttribute<Map<String, String>> {
 
     @NotNull
-    private String value;
+    private Map<String, String> value;
 
 }
