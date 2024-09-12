@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Notification template</title>
+</head>
+<body>
+<div style="width: 1000px; display: flex; align-items: center">
+    <h1 style="color: black; font-size: 20px">
+        Please follow the link to confirm your account:
+        <a th:href="@{http://localhost:8000/unauthenticated/security/v1/profile/confirm/{code}(code=${code})}">Confirm Account</a>
+    </h1>
+</div>
+<div style="color: darkgrey">© Pet project by AKlimets, <span th:text="${year}" th:remove="tag"></span></div>
+</body>
+</html>
