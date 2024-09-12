@@ -14,9 +14,15 @@ import org.springframework.stereotype.Service;
 import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @Slf4j
@@ -40,12 +46,29 @@ public class MailSenderService {
     @Async
     public void processDomainEvent(DomainNotificationKafkaEvent event, String eventType) {
         try {
+            if (isEventTypeSupported(eventType)) {
+                log.error("Event type {} is not supported", eventType);
+                return;
+            }
             var message = mailSender.createMimeMessage();
             prepareMessage(event, message, eventType);
             mailSender.send(message);
             log.info("Email has been sent to the recipient successfully");
         } catch (Exception e) {
             log.error("An error occurred during the email sending - {}", e.getMessage());
+        }
+    }
+
+    private boolean isEventTypeSupported(String eventType) throws IOException {
+        return !listFilePaths("src/main/resources/templates/emails").contains(String.format("%s.html", eventType));
+    }
+
+    public static List<String> listFilePaths(String directory) throws IOException {
+        try (var paths = Files.list(Paths.get(directory))) {
+            return paths.filter(Files::isRegularFile)
+                    .map(Path::getFileName)
+                    .map(Path::toString)
+                    .collect(Collectors.toList());
         }
     }
 
